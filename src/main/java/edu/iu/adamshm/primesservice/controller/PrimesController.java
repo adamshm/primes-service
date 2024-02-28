@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/primes")
 public class PrimesController {
-    @GetMapping
-    public String primeIsRunning() {
-        return "Primes service is running!";
-    }
     IPrimesService primesService;
     public PrimesController(IPrimesService primesService) {
 
