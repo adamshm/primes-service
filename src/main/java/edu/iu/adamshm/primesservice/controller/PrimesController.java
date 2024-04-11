@@ -3,6 +3,8 @@ package edu.iu.adamshm.primesservice.controller;
 import edu.iu.adamshm.primesservice.rabbitmq.MQSender;
 import edu.iu.adamshm.primesservice.service.IPrimesService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 
 @RestController
@@ -18,7 +20,10 @@ public class PrimesController {
     @GetMapping("/{n}")
     public boolean isPrime(@PathVariable int n) {
         boolean result = primesService.isPrime(n);
-        mqSender.sendMessage(n, result);
+        Object principal = SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        String username = ((Jwt) principal).getSubject();
+        mqSender.sendMessage(username, n, result);
         return result;
     }
 }
