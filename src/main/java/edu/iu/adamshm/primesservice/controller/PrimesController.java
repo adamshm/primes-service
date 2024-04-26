@@ -23,6 +23,7 @@ public class PrimesController {
         Object principal = SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
         String username = ((Jwt) principal).getSubject();
+        System.out.println(username);
         mqSender.sendMessage(username, n, result);
         return result;
     }
